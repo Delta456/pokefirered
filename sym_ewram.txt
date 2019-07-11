@@ -979,13 +979,7 @@ gUnknown_203998C: @ 203998C
 	.include "src/money.o"
 
 	.align 2
-gUnknown_2039994: @ 2039994
-	.space 0x2
-
-gUnknown_2039996: @ 2039996
-	.space 0x2
-
-	.align 2
+	.include "src/safari_zone.o"
 	.include "src/item_use.o"
 
 	.align 2
@@ -1010,15 +1004,9 @@ gUnknown_20399C0: @ 20399C0
 gUnknown_20399C4: @ 20399C4
 	.space 0x4
 
-gUnknown_20399C8: @ 20399C8
-	.space 0x4
+	.include "src/menu_helpers.o"
 
-gUnknown_20399CC: @ 20399CC
-	.space 0x4
-
-gUnknown_20399D0: @ 20399D0
-	.space 0x4
-
+	.align 2
 gUnknown_20399D4: @ 20399D4
 	.space 0x4
 
@@ -1049,7 +1037,7 @@ gUnknown_20399FC: @ 20399FC
 gAIScriptPtr: @ 2039A00
 	.space 0x4
 
-gUnknown_2039A04: @ 2039A04
+gPlayerFacingPosition: @ 2039A04
 	.space 0x8
 
 gUnknown_2039A0C: @ 2039A0C
@@ -1097,7 +1085,7 @@ gUnknown_2039A34: @ 2039A34
 	.include "src/save.o"
 	.include "src/mystery_event_script.o"
 
-gUnknown_203AAB0: @ 203AAB0
+gPaletteDecompressionBuffer: @ 203AAB0
 	.space 0x4
 
 gUnknown_203AAB4: @ 203AAB4
@@ -1118,75 +1106,9 @@ gUnknown_203AAC4: @ 203AAC4
 gUnknown_203AAC6: @ 203AAC6
 	.space 0xE
 
-gUnknown_203AAD4: @ 203AAD4
-	.space 0x2C
+	.include "src/intro.o"
 
-gUnknown_203AB00: @ 203AB00
-	.space 0x2
-
-gUnknown_203AB02: @ 203AB02
-	.space 0x2
-
-gUnknown_203AB04: @ 203AB04
-	.space 0x2
-
-gUnknown_203AB06: @ 203AB06
-	.space 0x2
-
-gUnknown_203AB08: @ 203AB08
-	.space 0x2
-
-gUnknown_203AB0A: @ 203AB0A
-	.space 0x2
-
-gUnknown_203AB0C: @ 203AB0C
-	.space 0x2
-
-gUnknown_203AB0E: @ 203AB0E
-	.space 0x2
-
-gUnknown_203AB10: @ 203AB10
-	.space 0x2
-
-gUnknown_203AB12: @ 203AB12
-	.space 0x2
-
-gUnknown_203AB14: @ 203AB14
-	.space 0x2
-
-gUnknown_203AB16: @ 203AB16
-	.space 0x2
-
-gUnknown_203AB18: @ 203AB18
-	.space 0x2
-
-gUnknown_203AB1A: @ 203AB1A
-	.space 0x2
-
-gUnknown_203AB1C: @ 203AB1C
-	.space 0x2
-
-gUnknown_203AB1E: @ 203AB1E
-	.space 0x2
-
-gUnknown_203AB20: @ 203AB20
-	.space 0x2
-
-gUnknown_203AB22: @ 203AB22
-	.space 0x2
-
-gUnknown_203AB24: @ 203AB24
-	.space 0x4
-
-gUnknown_203AB28: @ 203AB28
-	.space 0x4
-
-gUnknown_203AB2C: @ 203AB2C
-	.space 0x4
-
-gUnknown_203AB30: @ 203AB30
-	.space 0x4
-
+	.align 2
 gUnknown_203AB34: @ 203AB34
 	.space 0x4
 
@@ -1214,18 +1136,8 @@ gUnknown_203AB50: @ 203AB50
 gUnknown_203AB54: @ 203AB54
 	.space 0x4
 
-gUnknown_203AB58: @ 203AB58
-	.space 0x4
-
-gUnknown_203AB5C: @ 203AB5C
-	.space 0x4
-
-gUnknown_203AB60: @ 203AB60
-	.space 0x80
-
-gUnknown_203ABE0: @ 203ABE0
-	.space 0x4
-
+	.include "src/new_menu_helpers.o"
+	.align 2
 gUnknown_203ABE4: @ 203ABE4
 	.space 0x4
 
@@ -1256,9 +1168,8 @@ gUnknown_203ACEC: @ 203ACEC
 gUnknown_203ACF0: @ 203ACF0
 	.space 0x4
 
-gUnknown_203ACF4: @ 203ACF4
-	.space 0x8
-
+	.include "src/list_menu.o"
+	.align 2
 gUnknown_203ACFC: @ 203ACFC
 	.space 0x6
 
@@ -1441,9 +1352,7 @@ gUnknown_203B0E8: @ 203B0E8
 	.include "src/oak_speech.o"
 	.align 2
 	.include "src/tm_case.o"
-
-gUnknown_203B130: @ 203B130
-	.space 0x10
+	.include "src/menu_indicators.o"
 
 gUnknown_203B140: @ 203B140
 	.space 0x4
@@ -1483,10 +1392,7 @@ gUnknown_203B170: @ 203B170
 
 	.align 2
 	.include "src/help_system.o"
-
-	@ src/unk_text_util.o
-gUnknown_203F34C: @ 203F34C
-	.space 0x20
+	.include "src/dynamic_placeholder_text_util.o"
 
 gUnknown_203F36C: @ 203F36C
 	.space 0x4

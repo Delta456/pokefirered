@@ -170,7 +170,7 @@ sub_8107EE0: @ 8107EE0
 	bl RunTasks
 	bl AnimateSprites
 	bl BuildOamBuffer
-	bl do_scheduled_bg_tilemap_copies_to_vram
+	bl DoScheduledBgTilemapCopiesToVram
 	bl UpdatePaletteFade
 	pop {r0}
 	bx r0
@@ -253,8 +253,8 @@ _08107F60:
 	.4byte _081080D8
 	.4byte _081080DE
 _08107FB0:
-	bl VblankHblankHandlerSetZero
-	bl clear_scheduled_bg_copies_to_vram
+	bl SetVBlankHBlankCallbacksToNull
+	bl ClearScheduledBgCopiesToVram
 	b _08108104
 _08107FBA:
 	bl ScanlineEffect_Stop
@@ -520,7 +520,7 @@ _081081CC: .4byte gUnknown_203AD1C
 	thumb_func_start sub_81081D0
 sub_81081D0: @ 81081D0
 	push {r4,r5,lr}
-	bl InitBgReg
+	bl ResetAllBgsCoordinatesAndBgCntRegs
 	ldr r5, _08108230 @ =gUnknown_203AD14
 	movs r4, 0x80
 	lsls r4, 4
@@ -542,7 +542,7 @@ sub_81081D0: @ 81081D0
 	movs r0, 0x1
 	bl SetBgTilemapBuffer
 	movs r0, 0x1
-	bl schedule_bg_copy_tilemap_to_vram
+	bl ScheduleBgCopyTilemapToVram
 	movs r1, 0xC1
 	lsls r1, 6
 	movs r0, 0
@@ -595,19 +595,19 @@ _08108264:
 	.4byte _08108340
 	.4byte _0810834C
 _0810827C:
-	bl reset_temp_tile_data_buffers
+	bl ResetTempTileDataBuffers
 	ldr r1, _08108294 @ =gUnknown_8E830CC
 	movs r0, 0
 	str r0, [sp]
 	movs r0, 0x1
 	movs r2, 0
 	movs r3, 0
-	bl decompress_and_copy_tile_data_to_vram
+	bl DecompressAndCopyTileDataToVram
 	b _08108352
 	.align 2, 0
 _08108294: .4byte gUnknown_8E830CC
 _08108298:
-	bl free_temp_tile_data_buffers_if_possible
+	bl FreeTempTileDataBuffersIfPossible
 	lsls r0, 24
 	lsrs r0, 24
 	cmp r0, 0x1
@@ -676,20 +676,20 @@ _0810832C: .4byte gSaveBlock2Ptr
 _08108330: .4byte gUnknown_83D41E4
 _08108334:
 	ldr r0, _0810833C @ =gUnknown_83D41EC
-	bl LoadCompressedObjectPic
+	bl LoadCompressedSpriteSheet
 	b _08108352
 	.align 2, 0
 _0810833C: .4byte gUnknown_83D41EC
 _08108340:
 	ldr r0, _08108348 @ =gUnknown_83D41F4
-	bl LoadCompressedObjectPalette
+	bl LoadCompressedSpritePalette
 	b _08108352
 	.align 2, 0
 _08108348: .4byte gUnknown_83D41F4
 _0810834C:
 	ldr r0, _08108360 @ =gBagSwapSpriteSheet
 _0810834E:
-	bl LoadCompressedObjectPic
+	bl LoadCompressedSpriteSheet
 _08108352:
 	ldr r0, _08108364 @ =gUnknown_203AD10
 	ldr r1, [r0]
@@ -702,7 +702,7 @@ _08108360: .4byte gBagSwapSpriteSheet
 _08108364: .4byte gUnknown_203AD10
 _08108368:
 	ldr r0, _08108378 @ =gBagSwapSpritePalette
-	bl LoadCompressedObjectPalette
+	bl LoadCompressedSpritePalette
 	ldr r1, [r4]
 	movs r0, 0
 	strb r0, [r1, 0x10]
@@ -1802,7 +1802,7 @@ sub_8108B8C: @ 8108B8C
 	adds r3, r4, 0
 	adds r3, 0x8
 	adds r2, r3
-	bl DestroyListMenu
+	bl DestroyListMenuTask
 	ldr r0, _08108BF0 @ =gUnknown_203AD10
 	ldr r0, [r0]
 	ldr r0, [r0]
@@ -2192,7 +2192,7 @@ DisplayItemMessageInBag: @ 8108E70
 	movs r3, 0xD
 	bl DisplayMessageAndContinueTask
 	movs r0, 0
-	bl schedule_bg_copy_tilemap_to_vram
+	bl ScheduleBgCopyTilemapToVram
 	add sp, 0x10
 	pop {r3,r4}
 	mov r8, r3
@@ -2341,7 +2341,7 @@ _08108FA0:
 _08108FE0: .4byte gUnknown_203AD10
 _08108FE4:
 	ldrb r0, [r7]
-	bl ListMenuHandleInput
+	bl ListMenu_ProcessInput
 	adds r4, r0, 0
 	ldrb r0, [r7]
 	ldr r5, _08109014 @ =gUnknown_203ACFC
@@ -2516,7 +2516,7 @@ sub_8109140: @ 8109140
 	movs r3, 0x1E
 	bl SetBgRectPal
 	movs r0, 0x1
-	bl schedule_bg_copy_tilemap_to_vram
+	bl ScheduleBgCopyTilemapToVram
 	add sp, 0x8
 	pop {r0}
 	bx r0
@@ -2617,9 +2617,9 @@ sub_81091D0: @ 81091D0
 	adds r1, r2, r1
 	adds r3, 0x8
 	adds r2, r3
-	bl DestroyListMenu
+	bl DestroyListMenuTask
 	movs r0, 0
-	bl schedule_bg_copy_tilemap_to_vram
+	bl ScheduleBgCopyTilemapToVram
 	ldr r0, _08109290 @ =gUnknown_203AD10
 	ldr r0, [r0]
 	ldrb r1, [r0, 0x5]
@@ -2640,7 +2640,7 @@ _08109242:
 	movs r3, 0x1
 	bl FillBgTilemapBufferRect_Palette0
 	movs r0, 0x1
-	bl schedule_bg_copy_tilemap_to_vram
+	bl ScheduleBgCopyTilemapToVram
 	ldr r0, _0810928C @ =gUnknown_203ACFC
 	ldrb r0, [r0, 0x6]
 	adds r0, r6
@@ -2792,7 +2792,7 @@ _08109358:
 	movs r0, 0x2
 	bl PutWindowTilemap
 	movs r0, 0
-	bl schedule_bg_copy_tilemap_to_vram
+	bl ScheduleBgCopyTilemapToVram
 	bl sub_8108888
 	bl sub_81088D8
 	adds r0, r6, 0
@@ -2835,7 +2835,7 @@ sub_81093B8: @ 81093B8
 	ldrb r0, [r2]
 	movs r1, 0x10
 	movs r2, 0x1
-	bl sub_8107BD0
+	bl ListMenuSetUnkIndicatorsStructField
 	mov r0, r8
 	strh r4, [r0, 0x2]
 	ldr r0, _08109498 @ =gUnknown_203AD10
@@ -2931,7 +2931,7 @@ sub_81094B0: @ 81094B0
 	cmp r0, 0x1
 	beq _0810959E
 	ldrb r0, [r4]
-	bl ListMenuHandleInput
+	bl ListMenu_ProcessInput
 	adds r5, r0, 0
 	ldrb r0, [r4]
 	ldr r3, _0810953C @ =gUnknown_203ACFC
@@ -3082,7 +3082,7 @@ _081095E8:
 	adds r7, r4, 0
 	adds r7, 0x8
 	adds r2, r7
-	bl DestroyListMenu
+	bl DestroyListMenuTask
 	movs r3, 0x2
 	ldrsh r0, [r6, r3]
 	cmp r0, r5
@@ -3160,7 +3160,7 @@ sub_810967C: @ 810967C
 	adds r7, r5, 0
 	adds r7, 0x8
 	adds r2, r7
-	bl DestroyListMenu
+	bl DestroyListMenuTask
 	movs r3, 0x2
 	ldrsh r0, [r6, r3]
 	cmp r0, r4
@@ -3374,7 +3374,7 @@ sub_8109854: @ 8109854
 	movs r2, 0xB
 	bl CopyToBgTilemapBufferRect
 	movs r0, 0x1
-	bl schedule_bg_copy_tilemap_to_vram
+	bl ScheduleBgCopyTilemapToVram
 	add sp, 0x8
 	pop {r0}
 	bx r0
@@ -3551,7 +3551,7 @@ _081099EC:
 	strb r0, [r4]
 	ldr r0, _08109A10 @ =gSpecialVar_ItemId
 	ldrh r0, [r0]
-	bl itemid_is_mail
+	bl ItemIsMail
 	lsls r0, 24
 	lsrs r0, 24
 	cmp r0, 0x1
@@ -3852,7 +3852,7 @@ sub_8109C50: @ 8109C50
 	movs r0, 0x1
 	bl PutWindowTilemap
 	movs r0, 0
-	bl schedule_bg_copy_tilemap_to_vram
+	bl ScheduleBgCopyTilemapToVram
 	bl CalculatePlayerPartyCount
 	lsls r0, 24
 	cmp r0, 0
@@ -4008,7 +4008,7 @@ sub_8109DB0: @ 8109DB0
 	movs r0, 0x1
 	bl PutWindowTilemap
 	movs r0, 0
-	bl schedule_bg_copy_tilemap_to_vram
+	bl ScheduleBgCopyTilemapToVram
 	ldrb r0, [r4]
 	movs r1, 0x1
 	bl bag_menu_print_cursor_
@@ -4035,7 +4035,7 @@ sub_8109DEC: @ 8109DEC
 	adds r0, r4, 0
 	adds r0, 0x10
 	ldrh r1, [r4, 0x4]
-	bl sub_80BF848
+	bl AdjustQuantityAccordingToDPadInput
 	lsls r0, 24
 	lsrs r0, 24
 	cmp r0, 0x1
@@ -4066,7 +4066,7 @@ _08109E20:
 	movs r0, 0
 	bl sub_810BA3C
 	movs r0, 0
-	bl schedule_bg_copy_tilemap_to_vram
+	bl ScheduleBgCopyTilemapToVram
 	bl sub_8108978
 	adds r0, r5, 0
 	bl sub_8109D38
@@ -4089,7 +4089,7 @@ _08109E64:
 	movs r0, 0x1
 	bl PutWindowTilemap
 	movs r0, 0
-	bl schedule_bg_copy_tilemap_to_vram
+	bl ScheduleBgCopyTilemapToVram
 	ldrb r0, [r4]
 	movs r1, 0x1
 	bl bag_menu_print_cursor_
@@ -4213,7 +4213,7 @@ _08109F6E:
 	adds r6, r4, 0
 	adds r6, 0x8
 	adds r2, r6
-	bl DestroyListMenu
+	bl DestroyListMenuTask
 	ldrb r0, [r4, 0x6]
 	bl sub_8108DC8
 	ldrb r0, [r4, 0x6]
@@ -4234,7 +4234,7 @@ _08109F6E:
 	movs r0, 0x1
 	bl PutWindowTilemap
 	movs r0, 0
-	bl schedule_bg_copy_tilemap_to_vram
+	bl ScheduleBgCopyTilemapToVram
 	ldrb r0, [r7]
 	movs r1, 0x1
 	bl bag_menu_print_cursor_
@@ -4304,7 +4304,7 @@ _0810A052:
 	adds r6, r4, 0
 	adds r6, 0x8
 	adds r2, r6
-	bl DestroyListMenu
+	bl DestroyListMenuTask
 	ldrb r0, [r4, 0x6]
 	bl sub_810842C
 	ldr r0, _0810A0A4 @ =gMultiuseListMenuTemplate
@@ -4519,7 +4519,7 @@ sub_810A1F8: @ 810A1F8
 	adds r3, r4
 	mov r9, r3
 	add r2, r9
-	bl DestroyListMenu
+	bl DestroyListMenuTask
 	ldrb r0, [r4, 0x6]
 	bl sub_8108DC8
 	ldrb r0, [r4, 0x6]
@@ -4538,7 +4538,7 @@ sub_810A1F8: @ 810A1F8
 	lsrs r0, 24
 	strh r0, [r5]
 	movs r0, 0
-	bl schedule_bg_copy_tilemap_to_vram
+	bl ScheduleBgCopyTilemapToVram
 	ldrb r0, [r5]
 	movs r1, 0x1
 	bl bag_menu_print_cursor_
@@ -4582,7 +4582,7 @@ sub_810A288: @ 810A288
 	movs r0, 0
 	bl PutWindowTilemap
 	movs r0, 0
-	bl schedule_bg_copy_tilemap_to_vram
+	bl ScheduleBgCopyTilemapToVram
 	ldrb r0, [r4]
 	movs r1, 0x1
 	bl bag_menu_print_cursor_
@@ -4611,7 +4611,7 @@ sub_810A2DC: @ 810A2DC
 	movs r0, 0x1
 	bl PutWindowTilemap
 	movs r0, 0
-	bl schedule_bg_copy_tilemap_to_vram
+	bl ScheduleBgCopyTilemapToVram
 	ldr r1, _0810A320 @ =gTasks
 	lsls r0, r4, 2
 	adds r0, r4
@@ -4817,7 +4817,7 @@ sub_810A468: @ 810A468
 	lsrs r4, r0, 16
 	adds r6, r4, 0
 	adds r0, r4, 0
-	bl itemid_is_mail
+	bl ItemIsMail
 	lsls r0, 24
 	lsrs r0, 24
 	cmp r0, 0x1
@@ -5160,7 +5160,7 @@ sub_810A720: @ 810A720
 	movs r0, 0x1
 	bl PutWindowTilemap
 	movs r0, 0
-	bl schedule_bg_copy_tilemap_to_vram
+	bl ScheduleBgCopyTilemapToVram
 	ldrb r0, [r4]
 	movs r1, 0x1
 	bl bag_menu_print_cursor_
@@ -5296,7 +5296,7 @@ sub_810A85C: @ 810A85C
 	adds r0, r5, 0
 	adds r0, 0x10
 	ldrh r1, [r5, 0x4]
-	bl sub_80BF848
+	bl AdjustQuantityAccordingToDPadInput
 	lsls r0, 24
 	lsrs r0, 24
 	cmp r0, 0x1
@@ -5339,7 +5339,7 @@ _0810A8BC:
 	movs r0, 0
 	bl PutWindowTilemap
 	movs r0, 0
-	bl schedule_bg_copy_tilemap_to_vram
+	bl ScheduleBgCopyTilemapToVram
 	bl sub_8108978
 	adds r0, r4, 0
 	bl sub_810A690
@@ -5366,7 +5366,7 @@ _0810A8F0:
 	movs r0, 0x1
 	bl PutWindowTilemap
 	movs r0, 0
-	bl schedule_bg_copy_tilemap_to_vram
+	bl ScheduleBgCopyTilemapToVram
 	bl sub_8108978
 	ldrb r0, [r5]
 	movs r1, 0x1
@@ -5393,7 +5393,7 @@ sub_810A940: @ 810A940
 	movs r0, 0
 	bl PutWindowTilemap
 	movs r0, 0
-	bl schedule_bg_copy_tilemap_to_vram
+	bl ScheduleBgCopyTilemapToVram
 	ldr r0, _0810A9B8 @ =gSpecialVar_ItemId
 	ldrh r0, [r0]
 	ldr r1, _0810A9BC @ =gStringVar1
@@ -5497,7 +5497,7 @@ sub_810A9D4: @ 810A9D4
 	adds r3, r4
 	mov r9, r3
 	add r2, r9
-	bl DestroyListMenu
+	bl DestroyListMenuTask
 	ldrb r0, [r4, 0x6]
 	bl sub_8108DC8
 	ldrb r0, [r4, 0x6]
@@ -5659,7 +5659,7 @@ sub_810AB88: @ 810AB88
 	adds r0, r4, 0
 	adds r0, 0x10
 	ldrh r1, [r4, 0x4]
-	bl sub_80BF848
+	bl AdjustQuantityAccordingToDPadInput
 	lsls r0, 24
 	lsrs r0, 24
 	cmp r0, 0x1
@@ -5690,7 +5690,7 @@ _0810ABBC:
 	movs r0, 0
 	bl sub_810BA3C
 	movs r0, 0
-	bl schedule_bg_copy_tilemap_to_vram
+	bl ScheduleBgCopyTilemapToVram
 	bl sub_8108978
 	adds r0, r5, 0
 	bl sub_810AC40
@@ -5711,7 +5711,7 @@ _0810AC00:
 	movs r0, 0x1
 	bl PutWindowTilemap
 	movs r0, 0
-	bl schedule_bg_copy_tilemap_to_vram
+	bl ScheduleBgCopyTilemapToVram
 	ldrb r0, [r4]
 	movs r1, 0x1
 	bl bag_menu_print_cursor_
@@ -6212,7 +6212,7 @@ _0810B01C:
 	ldrb r0, [r5]
 	movs r1, 0
 	movs r2, 0
-	bl DestroyListMenu
+	bl DestroyListMenuTask
 	bl sub_810AECC
 	bl sub_8108CB4
 	adds r0, r7, 0
@@ -6537,7 +6537,7 @@ _0810B29E:
 	adds r6, r4, 0
 	adds r6, 0x8
 	adds r2, r6
-	bl DestroyListMenu
+	bl DestroyListMenuTask
 	ldrb r0, [r4, 0x6]
 	bl sub_810842C
 	ldr r0, _0810B328 @ =gMultiuseListMenuTemplate
@@ -6573,7 +6573,7 @@ _0810B32C:
 	movs r0, 0x80
 	strh r0, [r1, 0x30]
 	ldrb r0, [r7]
-	bl ListMenuHandleInput
+	bl ListMenu_ProcessInput
 	b _0810B36C
 	.align 2, 0
 _0810B340: .4byte gMain
@@ -6583,7 +6583,7 @@ _0810B344:
 	ldrb r0, [r7]
 	movs r1, 0
 	movs r2, 0
-	bl DestroyListMenu
+	bl DestroyListMenuTask
 	bl sub_810AECC
 	bl sub_8108CB4
 	adds r0, r6, 0
@@ -6701,7 +6701,7 @@ _0810B428:
 _0810B430:
 	strh r0, [r1, 0x30]
 	ldrb r0, [r4]
-	bl ListMenuHandleInput
+	bl ListMenu_ProcessInput
 	b _0810B4B0
 	.align 2, 0
 _0810B43C: .4byte gMain
@@ -6738,7 +6738,7 @@ _0810B468:
 	ldrb r0, [r4]
 	movs r1, 0
 	movs r2, 0
-	bl DestroyListMenu
+	bl DestroyListMenuTask
 	bl sub_810AECC
 	bl sub_8108CB4
 	adds r0, r7, 0
@@ -6817,7 +6817,7 @@ _0810B528:
 	strh r6, [r0, 0x2E]
 	strh r7, [r0, 0x30]
 	ldrb r0, [r5]
-	bl ListMenuHandleInput
+	bl ListMenu_ProcessInput
 	b _0810B5C0
 	.align 2, 0
 _0810B538: .4byte gMain
@@ -6854,7 +6854,7 @@ _0810B564:
 	ldrb r0, [r5]
 	movs r1, 0
 	movs r2, 0
-	bl DestroyListMenu
+	bl DestroyListMenuTask
 	bl sub_810AECC
 	ldr r1, _0810B5B0 @ =gUnknown_3005E98
 	ldr r0, _0810B5B4 @ =ItemUseCB_Medicine
@@ -6950,7 +6950,7 @@ _0810B64E:
 	strh r5, [r0, 0x2E]
 	strh r7, [r0, 0x30]
 	ldrb r0, [r6]
-	bl ListMenuHandleInput
+	bl ListMenu_ProcessInput
 	b _0810B6E0
 	.align 2, 0
 _0810B65C: .4byte gMain
@@ -6989,7 +6989,7 @@ _0810B68C:
 	ldrb r0, [r6]
 	movs r1, 0
 	movs r2, 0
-	bl DestroyListMenu
+	bl DestroyListMenuTask
 	bl sub_810AECC
 	ldr r0, _0810B6D4 @ =gUnknown_203AD10
 	ldr r1, [r0]

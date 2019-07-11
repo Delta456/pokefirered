@@ -2669,7 +2669,7 @@ _0808CDC0: .4byte gUnknown_20397B0
 c2_Box: @ 808CDC4
 	push {lr}
 	bl RunTasks
-	bl do_scheduled_bg_tilemap_copies_to_vram
+	bl DoScheduledBgTilemapCopiesToVram
 	bl sub_808EFC8
 	bl sub_808F99C
 	bl AnimateSprites
@@ -2835,7 +2835,7 @@ sub_808CF10: @ 808CF10
 	ldr r1, _0808CF88 @ =gKeyRepeatStartDelay
 	movs r0, 0x14
 	strh r0, [r1]
-	bl clear_scheduled_bg_copies_to_vram
+	bl ClearScheduledBgCopiesToVram
 	movs r0, 0x3
 	bl sub_80F7AD8
 	ldr r2, _0808CF8C @ =gUnknown_83CE6F8
@@ -3377,7 +3377,7 @@ _0808D3DC:
 	ldr r1, _0808D40C @ =0x00000ce2
 	adds r0, r1
 	ldrh r0, [r0]
-	bl itemid_is_mail
+	bl ItemIsMail
 	lsls r0, 24
 	cmp r0, 0
 	beq _0808D404
@@ -3491,7 +3491,7 @@ _0808D4D8:
 	ldr r1, _0808D504 @ =0x00000ce2
 	adds r0, r1
 	ldrh r0, [r0]
-	bl itemid_is_mail
+	bl ItemIsMail
 	lsls r0, 24
 	cmp r0, 0
 	beq _0808D508
@@ -4109,7 +4109,7 @@ _0808DA20:
 	ldr r2, _0808DA54 @ =0x00000ce2
 	adds r0, r2
 	ldrh r0, [r0]
-	bl itemid_is_mail
+	bl ItemIsMail
 	lsls r0, 24
 	cmp r0, 0
 	bne _0808DAA0
@@ -4154,7 +4154,7 @@ _0808DA90:
 	ldr r2, _0808DAA8 @ =0x00000ce2
 	adds r0, r1, r2
 	ldrh r0, [r0]
-	bl itemid_is_mail
+	bl ItemIsMail
 	lsls r0, 24
 	cmp r0, 0
 	beq _0808DAAC
@@ -4971,7 +4971,7 @@ _0808E166:
 	ldr r1, _0808E17C @ =0x00000ce2
 	adds r0, r1
 	ldrh r0, [r0]
-	bl itemid_is_mail
+	bl ItemIsMail
 	lsls r0, 24
 	cmp r0, 0
 	bne _0808E180
@@ -5275,7 +5275,7 @@ _0808E3FC:
 	ldr r1, _0808E418 @ =0x00000ce2
 	adds r0, r1
 	ldrh r0, [r0]
-	bl itemid_is_mail
+	bl ItemIsMail
 	lsls r0, 24
 	cmp r0, 0
 	bne _0808E41C
@@ -6738,7 +6738,7 @@ sub_808EFE4: @ 808EFE4
 	movs r0, 0x1
 	bl ShowBg
 	movs r0, 0x1
-	bl schedule_bg_copy_tilemap_to_vram
+	bl ScheduleBgCopyTilemapToVram
 	add sp, 0x4
 	pop {r4,r5}
 	pop {r0}
@@ -6956,7 +6956,7 @@ sub_808F1D0: @ 808F1D0
 	bl sub_808F49C
 	bl sub_808F5E8
 	movs r0, 0
-	bl schedule_bg_copy_tilemap_to_vram
+	bl ScheduleBgCopyTilemapToVram
 	pop {r0}
 	bx r0
 	.align 2, 0
@@ -7233,7 +7233,7 @@ sub_808F3F8: @ 808F3F8
 	adds r0, r1
 	ldr r5, _0808F474 @ =0x000022bc
 	adds r1, r4, r5
-	bl sub_800ECC4
+	bl HandleLoadSpecialPokePic
 	ldr r1, [r6]
 	ldr r2, _0808F478 @ =0x00000cd8
 	adds r0, r1, r2
@@ -7526,7 +7526,7 @@ _0808F66E:
 	movs r0, 0
 	bl sub_80F7E54
 	movs r0, 0x1
-	bl schedule_bg_copy_tilemap_to_vram
+	bl ScheduleBgCopyTilemapToVram
 	add sp, 0x4
 	pop {r4}
 	pop {r0}
@@ -7608,7 +7608,7 @@ _0808F718:
 	bl sub_80F7E54
 _0808F73A:
 	movs r0, 0x1
-	bl schedule_bg_copy_tilemap_to_vram
+	bl ScheduleBgCopyTilemapToVram
 	ldr r0, _0808F754 @ =gUnknown_20397B0
 	ldr r0, [r0]
 	ldr r1, _0808F758 @ =0x000002c7
@@ -7680,7 +7680,7 @@ sub_808F794: @ 808F794
 	movs r0, 0x1
 	bl sub_80F7E54
 	movs r0, 0x1
-	bl schedule_bg_copy_tilemap_to_vram
+	bl ScheduleBgCopyTilemapToVram
 	movs r0, 0x8
 	bl sub_8090B98
 	ldr r1, [r4]
@@ -7800,7 +7800,7 @@ sub_808F850: @ 808F850
 	cmp r0, 0x14
 	beq _0808F8D4
 	movs r0, 0x1
-	bl schedule_bg_copy_tilemap_to_vram
+	bl ScheduleBgCopyTilemapToVram
 	movs r0, 0x1
 	b _0808F8FE
 	.align 2, 0
@@ -7822,7 +7822,7 @@ _0808F8D4:
 	movs r0, 0x2
 	bl sub_80F7E54
 	movs r0, 0x1
-	bl schedule_bg_copy_tilemap_to_vram
+	bl ScheduleBgCopyTilemapToVram
 _0808F8FC:
 	movs r0, 0
 _0808F8FE:
@@ -7859,7 +7859,7 @@ _0808F934:
 	movs r0, 0x2
 	bl sub_80F7E54
 	movs r0, 0x1
-	bl schedule_bg_copy_tilemap_to_vram
+	bl ScheduleBgCopyTilemapToVram
 	add sp, 0x4
 	pop {r0}
 	bx r0
@@ -8068,7 +8068,7 @@ sub_808FAA8: @ 808FAA8
 	movs r0, 0x1
 	bl sub_80F7E54
 	movs r0, 0x1
-	bl schedule_bg_copy_tilemap_to_vram
+	bl ScheduleBgCopyTilemapToVram
 	add sp, 0x4
 	pop {r0}
 	bx r0
@@ -8190,7 +8190,7 @@ sub_808FBA4: @ 808FBA4
 	sub sp, 0xC
 	lsls r0, 24
 	lsrs r6, r0, 24
-	bl UnkTextUtil_Reset
+	bl DynamicPlaceholderTextUtil_Reset
 	ldr r1, _0808FBC8 @ =gUnknown_83CEA88
 	lsls r0, r6, 3
 	adds r0, r1
@@ -8231,7 +8231,7 @@ _0808FC04:
 	adds r1, r2
 _0808FC0C:
 	movs r0, 0
-	bl UnkTextUtil_SetPtrI
+	bl DynamicPlaceholderTextUtil_SetPlaceholderPtr
 	b _0808FC7C
 	.align 2, 0
 _0808FC14: .4byte gUnknown_20397B0
@@ -8281,7 +8281,7 @@ _0808FC62:
 	ldr r0, _0808FCE0 @ =0x000021db
 	adds r1, r0
 	movs r0, 0
-	bl UnkTextUtil_SetPtrI
+	bl DynamicPlaceholderTextUtil_SetPlaceholderPtr
 _0808FC7C:
 	ldr r5, _0808FCDC @ =gUnknown_20397B0
 	ldr r0, [r5]
@@ -8292,7 +8292,7 @@ _0808FC7C:
 	lsls r1, r6, 3
 	adds r1, r2
 	ldr r1, [r1]
-	bl UnkTextUtil_StringExpandPlaceholders
+	bl DynamicPlaceholderTextUtil_ExpandPlaceholders
 	movs r0, 0x1
 	movs r1, 0x11
 	bl FillWindowPixelBuffer
@@ -8318,7 +8318,7 @@ _0808FC7C:
 	movs r1, 0x2
 	bl CopyWindowToVram
 	movs r0, 0
-	bl schedule_bg_copy_tilemap_to_vram
+	bl ScheduleBgCopyTilemapToVram
 	add sp, 0xC
 	pop {r4-r6}
 	pop {r0}
@@ -8365,7 +8365,7 @@ sub_808FD20: @ 808FD20
 	movs r1, 0
 	bl ClearMenuWindow
 	movs r0, 0
-	bl schedule_bg_copy_tilemap_to_vram
+	bl ScheduleBgCopyTilemapToVram
 	pop {r0}
 	bx r0
 	thumb_func_end sub_808FD20
@@ -18314,7 +18314,7 @@ _08094A48: .4byte gUnknown_20397B0
 _08094A4C: .4byte 0x00000ce2
 _08094A50:
 	ldrh r0, [r1]
-	bl itemid_is_mail
+	bl ItemIsMail
 	lsls r0, 24
 	cmp r0, 0
 	bne _08094A68
@@ -18344,7 +18344,7 @@ _08094A70:
 _08094A8C: .4byte 0x00000ce2
 _08094A90:
 	ldrh r0, [r1]
-	bl itemid_is_mail
+	bl ItemIsMail
 	lsls r0, 24
 	lsrs r0, 24
 	cmp r0, 0x1
@@ -18963,7 +18963,7 @@ sub_8094E88: @ 8094E88
 	movs r3, 0x2
 	bl ProgramAndPlaceMenuCursorOnWindow
 	movs r0, 0
-	bl schedule_bg_copy_tilemap_to_vram
+	bl ScheduleBgCopyTilemapToVram
 	ldr r0, [r5]
 	ldr r3, _08094F8C @ =0x00000caa
 	adds r0, r3
@@ -20609,7 +20609,7 @@ _08095B9C:
 	orrs r0, r1
 	str r0, [r2, 0x4]
 	mov r0, r9
-	bl LoadCompressedObjectPic
+	bl LoadCompressedSpriteSheet
 	mov r4, r9
 	ldrh r0, [r4, 0x6]
 	bl GetSpriteTileStartByTag
@@ -22334,7 +22334,7 @@ _080968D0:
 	movs r3, 0x14
 	bl FillBgTilemapBufferRect
 	movs r0, 0
-	bl schedule_bg_copy_tilemap_to_vram
+	bl ScheduleBgCopyTilemapToVram
 	add sp, 0xC
 	pop {r4-r7}
 	pop {r0}

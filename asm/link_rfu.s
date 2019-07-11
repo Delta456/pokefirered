@@ -3259,7 +3259,7 @@ sub_80FEC54: @ 80FEC54
 	push {r4,lr}
 	lsls r0, 24
 	lsrs r4, r0, 24
-	bl is_c1_link_related_active
+	bl IsUpdateLinkStateCBActive
 	cmp r0, 0
 	bne _080FEC70
 _080FEC62:
@@ -9465,7 +9465,7 @@ sub_8101A90: @ 8101A90
 	ldr r4, _08101AC0 @ =gUnknown_843F938
 _08101AA2:
 	adds r0, r4, 0
-	bl LoadCompressedObjectPic
+	bl LoadCompressedSpriteSheet
 	adds r4, 0x8
 	adds r5, 0x1
 	cmp r5, 0x3

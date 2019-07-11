@@ -2,7 +2,6 @@
 #define GUARD_ROM4_H
 
 #include "global.h"
-
 #include "main.h"
 
 struct UnkPlayerStruct
@@ -61,7 +60,7 @@ void Overworld_SetSavedMusic(u16);
 void Overworld_ChangeMusicToDefault(void);
 void Overworld_ChangeMusicTo(u16);
 
-bool32 is_c1_link_related_active(void);
+bool32 IsUpdateLinkStateCBActive(void);
 
 void strange_npc_table_clear(void);
 const struct MapHeader *get_mapheader_by_bank_and_number(u16, u16);
@@ -69,8 +68,8 @@ void FieldObjectMoveDestCoords(struct MapObject *, u32, s16 *, s16 *);
 void sub_8086230(void);
 void CB2_ReturnToField(void);
 bool32 sub_8087598(void);
-void c2_exit_to_overworld_1_continue_scripts_restart_music(void);
-void warp_in(void);
+void CB2_ReturnToFieldContinueScriptPlayMapMusic(void);
+void WarpIntoMap(void);
 u8 get_map_light_level_by_bank_and_number(s8 mapGroup, s8 mapNum);
 void sub_8086194(void);
 void sub_8084CCC(u8 spawn);
@@ -81,12 +80,12 @@ void mapldr_default(void);
 
 u32 GetGameStat(u8);
 
-void sub_8056938(void);
+void CB2_ContinueSavedGame(void);
 void sub_8055D5C(struct WarpData *);
 void sub_80572A8(void);
 void sub_805726C(void);
 void sub_8057430(void);
-void sub_8055DC4(void);
+void Overworld_PlaySpecialMapMusic(void);
 
 u8 GetCurrentRegionMapSectionId(void);
 
@@ -110,11 +109,11 @@ bool8 Overworld_MapTypeAllowsTeleportAndFly(u8 mapType);
 void Overworld_ResetStateAfterTeleport(void);
 
 void Overworld_FadeOutMapMusic(void);
-void sub_805671C(void);
-void sub_8055DC4(void);
+void CB2_LoadMap(void);
 bool8 sub_8055FC4(void);
 bool8 is_light_level_8_or_9(u8 mapType);
 bool32 sub_8055C9C(void);
-void sub_8054D70(void);
+void Overworld_ResetStateAfterDigEscRope(void);
+bool32 sub_8058244(void);
 
 #endif //GUARD_ROM4_H

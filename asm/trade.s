@@ -1909,7 +1909,7 @@ sub_804D638: @ 804D638
 	lsrs r1, 24
 	movs r0, 0x1C
 	bl SetGpuReg
-	bl sub_80F6CBC
+	bl RunTextPrinters_CheckPrinter0Active
 	bl RunTasks
 	bl AnimateSprites
 	bl BuildOamBuffer
@@ -7292,7 +7292,7 @@ _08050040:
 	ldr r1, [r1, 0x8]
 	adds r2, r5, 0
 	adds r3, r7, 0
-	bl sub_800ECC4
+	bl HandleLoadSpecialPokePic
 	movs r4, 0
 	b _0805009A
 	.align 2, 0
@@ -7316,7 +7316,7 @@ _0805007C:
 _0805009A:
 	mov r0, r8
 	bl GetMonSpritePalStruct
-	bl LoadCompressedObjectPalette
+	bl LoadCompressedSpritePalette
 	ldr r0, _080500C4 @ =gUnknown_2031DAC
 	ldr r1, [r0]
 	adds r0, r1, 0
@@ -10813,7 +10813,7 @@ _08052042:
 	ldr r1, [r1]
 	ldr r1, [r1, 0x10]
 	ldr r3, [r3, 0x6C]
-	bl sub_800ECC4
+	bl HandleLoadSpecialPokePic
 	ldr r1, [r7]
 	b _080522AC
 	.align 2, 0
@@ -13038,7 +13038,7 @@ _0805349E:
 	ldr r1, [r1]
 	ldr r1, [r1, 0x10]
 	ldr r3, [r3, 0x6C]
-	bl sub_800ECC4
+	bl HandleLoadSpecialPokePic
 	ldr r1, [r7]
 	b _08053708
 	.align 2, 0
@@ -13984,7 +13984,7 @@ sub_8053B48: @ 8053B48
 	ldrh r0, [r5, 0x28]
 	cmp r0, 0
 	beq _08053CC0
-	bl itemid_is_mail
+	bl ItemIsMail
 	lsls r0, 24
 	cmp r0, 0
 	beq _08053CB4

@@ -1558,7 +1558,7 @@ sub_811D184: @ 811D184
 	lsls r5, r1, 16
 	lsrs r5, 16
 	bl FreeAllWindowBuffers
-	bl reset_temp_tile_data_buffers
+	bl ResetTempTileDataBuffers
 	movs r0, 0
 	movs r1, 0
 	bl SetGpuReg
@@ -1654,7 +1654,7 @@ _0811D27C: .4byte 0x00001914
 	thumb_func_start sub_811D280
 sub_811D280: @ 811D280
 	push {lr}
-	bl free_temp_tile_data_buffers_if_possible
+	bl FreeTempTileDataBuffersIfPossible
 	lsls r0, 24
 	cmp r0, 0
 	beq _0811D290
@@ -1815,15 +1815,15 @@ _0811D3C0:
 _0811D3D4: .4byte gUnknown_841B295
 _0811D3D8: .4byte gUnknown_841B2A7
 _0811D3DC:
-	bl UnkTextUtil_Reset
+	bl DynamicPlaceholderTextUtil_Reset
 	bl sub_811D0F4
 	adds r1, r0, 0
 	movs r0, 0
-	bl UnkTextUtil_SetPtrI
+	bl DynamicPlaceholderTextUtil_SetPlaceholderPtr
 	bl sub_811D0D0
 	adds r1, r0, 0
 	movs r0, 0x1
-	bl UnkTextUtil_SetPtrI
+	bl DynamicPlaceholderTextUtil_SetPlaceholderPtr
 	adds r4, 0x14
 	ldr r1, _0811D400 @ =gUnknown_841B32E
 	b _0811D470
@@ -1866,20 +1866,20 @@ _0811D444: .4byte gUnknown_841B2F1
 _0811D448: .4byte gUnknown_841B2ED
 _0811D44C: .4byte gUnknown_8459998
 _0811D450:
-	bl UnkTextUtil_Reset
+	bl DynamicPlaceholderTextUtil_Reset
 	bl sub_811D0F4
 	adds r1, r0, 0
 	movs r0, 0
-	bl UnkTextUtil_SetPtrI
+	bl DynamicPlaceholderTextUtil_SetPlaceholderPtr
 	bl sub_811D0C4
 	adds r1, r0, 0
 	movs r0, 0x1
-	bl UnkTextUtil_SetPtrI
+	bl DynamicPlaceholderTextUtil_SetPlaceholderPtr
 	adds r4, 0x14
 	ldr r1, _0811D478 @ =gUnknown_841B306
 _0811D470:
 	adds r0, r4, 0
-	bl UnkTextUtil_StringExpandPlaceholders
+	bl DynamicPlaceholderTextUtil_ExpandPlaceholders
 	b _0811D4A2
 	.align 2, 0
 _0811D478: .4byte gUnknown_841B306
@@ -2353,7 +2353,7 @@ sub_811D7D4: @ 811D7D4
 	movs r0, 0x3
 	movs r2, 0
 	movs r3, 0
-	bl decompress_and_copy_tile_data_to_vram
+	bl DecompressAndCopyTileDataToVram
 	cmp r4, 0x4
 	beq _0811D818
 	ldr r0, _0811D814 @ =gUnknown_845963C
@@ -2446,7 +2446,7 @@ _0811D884:
 	adds r1, r6, 0
 	adds r2, r7, 0
 	mov r3, r10
-	bl sub_800ECC4
+	bl HandleLoadSpecialPokePic
 	mov r0, r8
 	bl GetMonFrontSpritePal
 	adds r1, r4, 0
@@ -3699,7 +3699,7 @@ sub_811E204: @ 811E204
 	sub sp, 0x8
 	mov r10, r0
 	ldr r0, _0811E2E0 @ =gUnknown_84599B8
-	bl LoadCompressedObjectPic
+	bl LoadCompressedSpriteSheet
 	ldr r0, _0811E2E4 @ =gUnknown_84599C0
 	bl LoadSpritePalette
 	movs r0, 0
@@ -4148,7 +4148,7 @@ _0811E582:
 sub_811E588: @ 811E588
 	push {lr}
 	ldr r0, _0811E59C @ =gUnknown_84599C8
-	bl LoadCompressedObjectPic
+	bl LoadCompressedSpriteSheet
 	ldr r0, _0811E5A0 @ =gUnknown_84599D0
 	bl LoadSpritePalette
 	pop {r0}
@@ -4216,7 +4216,7 @@ sub_811E5B8: @ 811E5B8
 	str r1, [r4]
 	mov r1, r9
 	strh r1, [r4, 0x4]
-	bl LoadCompressedObjectPic
+	bl LoadCompressedSpriteSheet
 	adds r0, r4, 0
 	bl LoadSpritePalette
 	ldr r0, _0811E674 @ =sub_811E694
