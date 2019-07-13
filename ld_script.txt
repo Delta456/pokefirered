@@ -214,7 +214,7 @@ SECTIONS {
         asm/battle_anim_special.o(.text);
         asm/hall_of_fame.o(.text);
         asm/credits.o(.text);
-        asm/diploma.o(.text);
+        src/diploma.o(.text);
         asm/save_failed_screen.o(.text);
         asm/clear_save_data_screen.o(.text);
         asm/evolution_graphics.o(.text);
@@ -420,6 +420,7 @@ SECTIONS {
         data/data_83FECCC.o(.rodata);
 		src/intro.o(.rodata);
         data/data_83FECCC.o(.rodata.battle_anim_special);
+        src/diploma.o(.rodata);
         data/strings.o(.rodata);
         data/data_83FECCC.o(.rodata.841EE44);
         src/new_menu_helpers.o(.rodata);
@@ -541,13 +542,7 @@ SECTIONS {
         data/multiboot_pokemon_colosseum.o(.rodata);
     } =0
 
-    gap1 :
-    {
-        gap1_start = ABSOLUTE(.);
-        BYTE(0xFF)
-        . = 0x8D00000 - gap1_start;
-    } =0xFF
-
+	. = 0x08D00000;
     gfx_data :
     ALIGN(4)
     {
