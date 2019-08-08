@@ -35,7 +35,7 @@ static void DiplomaBgInit(void);
 static void DiplomaPrintText(void);
 static u8 DiplomaLoadGfx(void);
 static void DiplomaVblankHandler(void);
-static void CB2_DiplomaInit(void);
+static void CB2_Diploma(void);
 static void Task_WaitForExit(u8);
 static void Task_DiplomaInit(u8);
 static void Task_DiplomaReturnToOverworld(u8);
@@ -52,7 +52,7 @@ static const u8 gUnknown_84159B3[] = _("{HIGHLIGHT TRANSPARENT}　　　　　�
 static const u8 gUnknown_84159ED[] = _("{COLOR RED}{HIGHLIGHT TRANSPARENT}ゲームフリーク");
 static const u8 gUnknown_84159FB[] = _("{COLOR RED}{HIGHLIGHT TRANSPARENT}");
 
-static const ALIGNED(4) u8 gUnknown_8415A04[] = {0, 2, 3};
+static const ALIGNED(4) struct TextColor gUnknown_8415A04 = {0, 2, 3};
 
 static const struct BgTemplate gUnknown_8415A08[] = {
     {
@@ -101,10 +101,10 @@ void CB2_ShowDiploma(void)
     gDiploma->callbackStep = 0;
     DiplomaBgInit();
     CreateTask(Task_DiplomaInit, 0);
-    SetMainCallback2(CB2_DiplomaInit);
+    SetMainCallback2(CB2_Diploma);
 }
 
-static void CB2_DiplomaInit(void)
+static void CB2_Diploma(void)
 {
     RunTasks();
     AnimateSprites();
@@ -134,7 +134,7 @@ static void Task_DiplomaInit(u8 taskId)
     case 4:
         if (HasAllKantoMons())
         {
-            SetGpuReg(REG_OFFSET_BG1HOFS, 0x80 << 1);
+            SetGpuReg(REG_OFFSET_BG1HOFS, 0x100);
         }
         else
         {
@@ -276,10 +276,10 @@ static void DiplomaPrintText(void)
     FillWindowPixelBuffer(0, 0);
     DynamicPlaceholderTextUtil_ExpandPlaceholders(arr, gUnknown_841B60E);
     width = GetStringWidth(2, arr, -1);
-    AddTextPrinterParameterized3(0, 2, 0x78 - (width / 2), 4, gUnknown_8415A04, -1, arr);
+    AddTextPrinterParameterized3(0, 2, 0x78 - (width / 2), 4, &gUnknown_8415A04, -1, arr);
     DynamicPlaceholderTextUtil_ExpandPlaceholders(arr, gUnknown_841B619);
     width = GetStringWidth(2, arr, -1);
-    AddTextPrinterParameterized3(0, 0x2, 0x78 - (width / 2), 0x1E, gUnknown_8415A04, -1, arr);
-    AddTextPrinterParameterized3(0, 0x2, 0x78, 0x69, gUnknown_8415A04, 0, gUnknown_841B684);
+    AddTextPrinterParameterized3(0, 0x2, 0x78 - (width / 2), 0x1E, &gUnknown_8415A04, -1, arr);
+    AddTextPrinterParameterized3(0, 0x2, 0x78, 0x69, &gUnknown_8415A04, 0, gUnknown_841B684);
     PutWindowTilemap(0);
 }

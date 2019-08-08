@@ -175,8 +175,19 @@ extern const u8 gUnknown_841665C[];
 extern const u8 gUnknown_8416690[];
 extern const u8 gUnknown_84166A7[];
 extern const u8 gUnknown_84169DC[];
-
+extern const u8 gUnknown_841623D[];
 extern const u8 gUnknown_84162BD[];
+extern const u8 gUnknown_841D148[];
+
+// pokemon.c
+extern const u8 BattleText_Rose[];
+extern const u8 BattleText_UnknownString3[];
+extern const u8 BattleText_GetPumped[];
+extern const u8 BattleText_MistShroud[];
+extern const u8 gText_EggNickname[];
+extern const u8 gText_BadEgg[];
+extern const u8 gText_PkmnsXPreventsSwitching[];
+extern u8 *gUnknown_83FD5D0[];
 
 // diploma
 extern const u8 gUnknown_841B60E[];
@@ -184,5 +195,17 @@ extern const u8 gUnknown_841B619[];
 extern const u8 gUnknown_841B684[];
 extern const u8 gUnknown_841B68F[];
 extern const u8 gUnknown_841B698[];
+
+// battle_records
+extern const u8 gString_BattleRecords_PlayersBattleResults[];
+extern const u8 gString_BattleRecords_TotalRecord[];
+extern const u8 gString_BattleRecords_ColumnHeaders[];
+extern const u8 gString_BattleRecords_7Dashes[];
+extern const u8 gString_BattleRecords_4Dashes[];
+
+// slot_machine
+extern const u8 gString_OutOfCoins[];
+extern const u8 gString_QuitPlaying[];
+extern const u8 gString_SlotMachineControls[];
 
 #endif //GUARD_STRINGS_H

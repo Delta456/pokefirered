@@ -43,7 +43,7 @@ struct PaletteFadeControl
 
 extern struct PaletteFadeControl gPaletteFade;
 extern u32 gPlttBufferTransferPending;
-extern u8 *gPaletteDecompressionBuffer;
+extern u8 *gUnknown_203AAB0;
 extern u16 gPlttBufferUnfaded[PLTT_BUFFER_SIZE];
 extern u16 gPlttBufferFaded[PLTT_BUFFER_SIZE];
 
@@ -71,7 +71,11 @@ void BlendPalettes(u32, u8, u16);
 void BlendPalettesUnfaded(u32, u8, u16);
 void sub_80716F8(const u16 *, u16 *, u16, u8);
 void TintPalette_GrayScale(u16 *, u16);
+void TintPalette_GrayScale2(u16 *, u16);
 void TintPalette_SepiaTone(u16 *, u16);
+void sub_80717A8(u32, s8, u8, u8, u16, u8, u8);
+bool32 sub_807185C(u8);
+void sub_8071898(void);
 
 extern struct PaletteFadeControl gPaletteFade;
 

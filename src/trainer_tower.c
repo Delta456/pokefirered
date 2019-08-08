@@ -566,10 +566,10 @@ void sub_815D8C8(void)
     }
 }
 
-void sub_815D8F8(void) // fakematching
+void sub_815D8F8(void)
 {
     u8 i;
-    register u32 found_map asm("r4") = 0xFF;
+    u8 found_map = 0xFF;
     for (i = 0; i < 15; i++)
     {
         if (gUnknown_8479D34[i].mapGroup == gSaveBlock1Ptr->location.mapGroup && gUnknown_8479D34[i].mapNum == gSaveBlock1Ptr->location.mapNum)
@@ -1111,7 +1111,7 @@ void sub_815E114(void)
 
 void sub_815E124(u8 taskId)
 {
-    if (sub_80D08F8() == TRUE)
+    if (BT_IsDone() == TRUE)
     {
         gMain.savedCallback = sub_815E114;
         CleanupOverworldWindowsAndTilemaps();
@@ -1129,7 +1129,7 @@ void sub_815E160(void)
     sub_815E9FC();
     CreateTask(sub_815E124, 1);
     PlayMapChosenOrBattleBGM(0);
-    sub_80D08B8(sub_8080060());
+    BT_StartOnField(sub_8080060());
 }
 
 void sub_815E1C0(void)
@@ -1299,7 +1299,7 @@ void sub_815E720(void)
 void sub_815E88C(void)
 {
     u8 windowId = VarGet(VAR_0x4001);
-    ClearMenuWindow(windowId, TRUE);
+    ClearStdWindowAndFrameToTransparent(windowId, TRUE);
     RemoveWindow(windowId);
 }
 
@@ -1378,21 +1378,21 @@ void sub_815E9FC(void)
             {
                 r2 = gUnknown_847A2EE[r5][r6];
                 gUnknown_203F458->unk_0004.trainers[gUnknown_203F458->unk_0000].unk_004[r4].unk_040[r2].level = r9;
-                sub_803E0A4(&gEnemyParty[r6], &gUnknown_203F458->unk_0004.trainers[gUnknown_203F458->unk_0000].unk_004[r4].unk_040[r2]);
+                CreateBattleTowerMon(&gEnemyParty[r6], &gUnknown_203F458->unk_0004.trainers[gUnknown_203F458->unk_0000].unk_004[r4].unk_040[r2]);
             }
             break;
         case 1:
             r2 = gUnknown_847A2FE[r5][0];
             gUnknown_203F458->unk_0004.trainers[gUnknown_203F458->unk_0000].unk_004[0].unk_040[r2].level = r9;
-            sub_803E0A4(&gEnemyParty[0], &gUnknown_203F458->unk_0004.trainers[gUnknown_203F458->unk_0000].unk_004[0].unk_040[r2]);
+            CreateBattleTowerMon(&gEnemyParty[0], &gUnknown_203F458->unk_0004.trainers[gUnknown_203F458->unk_0000].unk_004[0].unk_040[r2]);
             r2 = gUnknown_847A2FE[r5][1];
             gUnknown_203F458->unk_0004.trainers[gUnknown_203F458->unk_0000].unk_004[1].unk_040[r2].level = r9;
-            sub_803E0A4(&gEnemyParty[1], &gUnknown_203F458->unk_0004.trainers[gUnknown_203F458->unk_0000].unk_004[1].unk_040[r2]);
+            CreateBattleTowerMon(&gEnemyParty[1], &gUnknown_203F458->unk_0004.trainers[gUnknown_203F458->unk_0000].unk_004[1].unk_040[r2]);
             break;
         case 2:
             r2 = gUnknown_847A30E[r5][r4];
             gUnknown_203F458->unk_0004.trainers[gUnknown_203F458->unk_0000].unk_004[r4].unk_040[r2].level = r9;
-            sub_803E0A4(&gEnemyParty[0], &gUnknown_203F458->unk_0004.trainers[gUnknown_203F458->unk_0000].unk_004[r4].unk_040[r2]);
+            CreateBattleTowerMon(&gEnemyParty[0], &gUnknown_203F458->unk_0004.trainers[gUnknown_203F458->unk_0000].unk_004[r4].unk_040[r2]);
             break;
     }
 }
@@ -1425,7 +1425,7 @@ void sub_815EC0C(void)
     }
 }
 
-void sub_815EC8C(void)
+void PrintTrainerTowerRecords(void)
 {
     s32 i;
     u8 windowId = 0;

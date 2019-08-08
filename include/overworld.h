@@ -78,7 +78,8 @@ void c2_load_new_map(void);
 void copy_saved_warp2_bank_and_enter_x_to_warp1(u8 unused);
 void mapldr_default(void);
 
-u32 GetGameStat(u8);
+u32 GetGameStat(u8 statId);
+u32 SetGameStat(u8 statId, u32 value);
 
 void CB2_ContinueSavedGame(void);
 void sub_8055D5C(struct WarpData *);
@@ -105,6 +106,7 @@ extern bool8 (* gFieldCallback2)(void);
 void SetLastHealLocationWarp(u8 healLocaionId);
 void sub_8055864(u8 mapGroup, u8 mapNum);
 void CB2_Overworld(void);
+void CB2_OverworldBasic(void);
 void CB2_NewGame(void);
 bool8 Overworld_MapTypeAllowsTeleportAndFly(u8 mapType);
 void Overworld_ResetStateAfterTeleport(void);
