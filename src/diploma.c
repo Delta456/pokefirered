@@ -52,7 +52,7 @@ static const u8 gUnknown_84159B3[] = _("{HIGHLIGHT TRANSPARENT}　　　　　�
 static const u8 gUnknown_84159ED[] = _("{COLOR RED}{HIGHLIGHT TRANSPARENT}ゲームフリーク");
 static const u8 gUnknown_84159FB[] = _("{COLOR RED}{HIGHLIGHT TRANSPARENT}");
 
-static const ALIGNED(4) struct TextColor gUnknown_8415A04 = {0, 2, 3};
+static const ALIGNED(4) u8 gUnknown_8415A04[3] = {0, 2, 3};
 
 static const struct BgTemplate gUnknown_8415A08[] = {
     {
@@ -132,7 +132,7 @@ static void Task_DiplomaInit(u8 taskId)
         CopyToBgTilemapBuffer(1, gUnknown_84154E8, 0, 0);
         break;
     case 4:
-        if (HasAllKantoMons())
+        if (HasAllMons())
         {
             SetGpuReg(REG_OFFSET_BG1HOFS, 0x100);
         }
@@ -265,7 +265,7 @@ static void DiplomaPrintText(void)
     u32 width;
     DynamicPlaceholderTextUtil_Reset();
     DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, gSaveBlock2Ptr->playerName);
-    if (HasAllKantoMons())
+    if (HasAllMons())
     {
         DynamicPlaceholderTextUtil_SetPlaceholderPtr(1, gUnknown_841B68F);
     }
@@ -276,10 +276,10 @@ static void DiplomaPrintText(void)
     FillWindowPixelBuffer(0, 0);
     DynamicPlaceholderTextUtil_ExpandPlaceholders(arr, gUnknown_841B60E);
     width = GetStringWidth(2, arr, -1);
-    AddTextPrinterParameterized3(0, 2, 0x78 - (width / 2), 4, &gUnknown_8415A04, -1, arr);
+    AddTextPrinterParameterized3(0, 2, 0x78 - (width / 2), 4, gUnknown_8415A04, -1, arr);
     DynamicPlaceholderTextUtil_ExpandPlaceholders(arr, gUnknown_841B619);
     width = GetStringWidth(2, arr, -1);
-    AddTextPrinterParameterized3(0, 0x2, 0x78 - (width / 2), 0x1E, &gUnknown_8415A04, -1, arr);
-    AddTextPrinterParameterized3(0, 0x2, 0x78, 0x69, &gUnknown_8415A04, 0, gUnknown_841B684);
+    AddTextPrinterParameterized3(0, 0x2, 0x78 - (width / 2), 0x1E, gUnknown_8415A04, -1, arr);
+    AddTextPrinterParameterized3(0, 0x2, 0x78, 0x69, gUnknown_8415A04, 0, gUnknown_841B684);
     PutWindowTilemap(0);
 }

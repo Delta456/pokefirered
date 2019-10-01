@@ -25,6 +25,20 @@ enum
     BG_CTRL_ATTR_WRAPAROUND = 8,
 };
 
+enum
+{
+    BG_ATTR_CHARBASEINDEX = 1,
+    BG_ATTR_MAPBASEINDEX = 2,
+    BG_ATTR_SCREENSIZE = 3,
+    BG_ATTR_PALETTEMODE = 4,
+    BG_ATTR_MOSAIC = 5,
+    BG_ATTR_WRAPAROUND = 6,
+    BG_ATTR_PRIORITY = 7,
+    BG_ATTR_TEXTORAFFINEMODE = 8,
+    BG_ATTR_BGTYPE = 9,
+    BG_ATTR_BASETILE = 10
+};
+
 enum AdjustBgMosaicMode
 {
     BG_MOSAIC_SET,
@@ -90,14 +104,14 @@ void CopyToBgTilemapBuffer(u8 bg, const void *src, u16 mode, u16 destOffset);
 void CopyBgTilemapBufferToVram(u8 bg);
 void CopyToBgTilemapBufferRect(u8 bg, const void* src, u8 destX, u8 destY, u8 width, u8 height);
 void CopyToBgTilemapBufferRect_ChangePalette(u8 bg, const void *src, u8 destX, u8 destY, u8 rectWidth, u8 rectHeight, u8 palette);
-void CopyRectToBgTilemapBufferRect(u8 bg, const void* src, u8 srcX, u8 srcY, u8 srcWidth, u8 srcHeight, u8 destX, u8 destY, u8 rectWidth, u8 rectHeight, u8 palette1, u16 tileOffset, u16 palette2);
+void CopyRectToBgTilemapBufferRect(u8 bg, const void* src, u8 srcX, u8 srcY, u8 srcWidth, u8 srcHeight, u8 destX, u8 destY, u8 rectWidth, u8 rectHeight, u8 palette1, s16 tileOffset, s16 palette2);
 void FillBgTilemapBufferRect_Palette0(u8 bg, u16 tileNum, u8 x, u8 y, u8 width, u8 height);
 void FillBgTilemapBufferRect(u8 bg, u16 tileNum, u8 x, u8 y, u8 width, u8 height, u8 palette);
 void WriteSequenceToBgTilemapBuffer(u8 bg, u16 firstTileNum, u8 x, u8 y, u8 width, u8 height, u8 paletteSlot, s16 tileNumDelta);
 u16 GetBgMetricTextMode(u8 bg, u8 whichMetric);
 u32 GetBgMetricAffineMode(u8 bg, u8 whichMetric);
 u32 GetTileMapIndexFromCoords(s32 x, s32 y, s32 screenSize, u32 screenWidth, u32 screenHeight);
-void CopyTileMapEntry(u16 *src, u16 *dest, s32 palette1, u32 tileOffset, u32 palette2);
+void CopyTileMapEntry(const u16 *src, u16 *dest, s32 palette1, s32 tileOffset, s32 palette2);
 u32 GetBgType(u8 bg);
 bool32 IsInvalidBg32(u8 bg);
 bool32 IsTileMapOutsideWram(u8 bg);
